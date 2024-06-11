@@ -6,12 +6,18 @@ import styled from "styled-components";
 
 const Modal = ({children,state,changeState,title}) => {
     
+    const handleClickOutside = (event) => {
+        if (event.target === event.currentTarget) {
+            changeState(false);
+        }
+    };
+    
     
     
   return (
     <>
     { (state===true)?
-        <Overlay>
+        <Overlay onClick={handleClickOutside}>
             <ContenedorModal reactive>
             <Contenido>
                 <Encabezado> <h3> {title}</h3></Encabezado>
@@ -80,7 +86,7 @@ border-bottom:2px solid #E8E8E8;
 h3{
     font-weight:500;
     font-size:30px;
-    color:#1766DC;
+    color:#0bb5d8;
 }
 
 

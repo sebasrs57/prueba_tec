@@ -18,6 +18,7 @@ const ShowInfo = () => {
     const [Information,setInformation]=useState([]);
     const [Parameters,setParameters]=useState([]);
     const [QuestionTypes,setQuestionTypes]=useState([]);
+    const [Questions,setQuestions]=useState([]);
 
     const[Detaills,setDetaills]=useState([]);
 
@@ -93,6 +94,7 @@ const ShowInfo = () => {
             {Parameters.map((para)=>( (obj.state===para.id)? setState(para.name):null))}
             
             
+            
         };
         
         const getDetails = async (identification)=>{
@@ -102,6 +104,7 @@ const ShowInfo = () => {
                 const urlByIdsend=urlById+identification;
                 
                 const detaills=await axios.post(urlByIdsend,{formId:identification});
+                setQuestions(detaills.data.questions)
                 console.log(detaills)
                 
                 console.log(Parameters)
@@ -110,6 +113,25 @@ const ShowInfo = () => {
                 catch(error) { console.error("Error al obtener los datos de las preguntas : ", error) }
             };
         
+
+
+ const renderQuestion=(item)=>{
+
+    
+    return(
+        <>
+            <tr>QuestionId: <td></td> <td><p>{item.questionId}</p></td></tr>
+            <tr>Question: <td></td> <td><p>{item.label}</p></td></tr>
+            {QuestionTypes.map((qType)=>((item.type===qType.id)? <tr>Answer Type: <td></td> <td><p>{qType.name}</p></td></tr>:null))}
+        </>
+
+    )
+
+    }
+
+
+
+
 
   return (
     <>
@@ -147,7 +169,7 @@ const ShowInfo = () => {
             </div> 
         </div>
 
-                        
+        
 
 
 
@@ -162,6 +184,7 @@ const ShowInfo = () => {
                       <tr>State: <td></td> <td><p>{state}</p></td></tr>
                       <tr> Date:<td></td> <td><p>{formatearFecha(date)}</p></td></tr>
                       <tr> Active:<td></td> <td><p>{(act === true)?<td>si</td>:<td>no</td>}</p></td></tr>
+                      {Questions.map((item)=>renderQuestion(item))}
                       
                       
                       
